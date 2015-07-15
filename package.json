@@ -1,0 +1,37 @@
+{
+  "name": "trendy",
+  "version": "0.0.1",
+  "description": "URLs monitoring service",
+  "main": "index.js",
+  "scripts": {
+    "test": "lab",
+    "jscs": "jscs .",
+    "lint": "jshint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/idewz/trendy.git"
+  },
+  "keywords": [
+    "social",
+    "monitoring"
+  ],
+  "author": "Siwadon Saosoong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/idewz/trendy/issues"
+  },
+  "homepage": "https://github.com/idewz/trendy",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "jscs": "^1.13.1",
+    "jshint": "^2.8.0",
+    "lab": "^5.13.0",
+    "nock": "^2.7.0",
+    "pre-commit": "^1.0.10"
+  },
+  "pre-commit": [
+    "lint",
+    "jscs"
+  ]
+}
