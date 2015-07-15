@@ -22,6 +22,14 @@
     "url": "https://github.com/idewz/trendy/issues"
   },
   "homepage": "https://github.com/idewz/trendy",
+  "dependencies": {
+    "hapi": "^8.8.0",
+    "joi": "^6.5.0",
+    "lodash": "^3.10.0",
+    "q": "^1.4.1",
+    "request": "^2.58.0",
+    "xml2js": "^0.4.9"
+  },
   "devDependencies": {
     "chai": "^3.0.0",
     "jscs": "^1.13.1",
