@@ -42,6 +42,16 @@ server.route({
   }
 });
 
+server.route({
+  method: 'GET',
+  path: '/rank',
+  handler: function(request, reply) {
+    counter.fetch()
+      .then(counter.rank)
+      .then(reply);
+  }
+});
+
 server.start(function() {
   console.log('server is running at: ' + server.info.uri);
 });

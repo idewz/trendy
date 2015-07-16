@@ -65,4 +65,28 @@ Counter.prototype.fetch_facebook = function(urls) {
   return true;
 };
 
+Counter.prototype.rank = function(urls) {
+  var deferred = Q.defer();
+  var client   = redis.createClient();
+  var keys     = _.map(urls, function(x) { return 'counts:' + x; });
+  var list     = [];
+  var index    = 0;
+
+  client.mget(keys, function(err, replies) {
+    _.forEach(urls, function(url) {
+      var share_count = parseInt(replies[index]);
+      list.push({
+        url: url,
+        share_count: share_count ? share_count : 0
+      });
+
+      index++;
+    });
+
+    deferred.resolve(_.sortByOrder(list, 'share_count', 'desc'));
+  });
+
+  return deferred.promise;
+};
+
 module.exports = Counter;
