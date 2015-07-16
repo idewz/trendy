@@ -1,7 +1,9 @@
 var Hapi    = require('hapi');
+var Indexer = require('./indexer');
 var Joi     = require('joi');
 var Sitemap = require('./sitemap');
 
+var indexer = new Indexer();
 var sitemap = new Sitemap();
 var server  = new Hapi.Server();
 
@@ -15,6 +17,7 @@ server.route({
   handler: function(request, reply) {
     sitemap.fetch(request.params.url)
       .then(sitemap.getUrls)
+      .then(indexer.add)
       .then(reply)
       .catch(reply);
   },

@@ -41,7 +41,7 @@ Sitemap.prototype.getUrls = function(xml_string) {
       });
     });
 
-    return urls.join('\n');
+    return urls;
   }
   catch (ex) {
     console.error('problem parsing sitemap: ' + ex);
