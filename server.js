@@ -1,8 +1,10 @@
+var Counter = require('./counter');
 var Hapi    = require('hapi');
 var Indexer = require('./indexer');
 var Joi     = require('joi');
 var Sitemap = require('./sitemap');
 
+var counter = new Counter();
 var indexer = new Indexer();
 var sitemap = new Sitemap();
 var server  = new Hapi.Server();
@@ -27,6 +29,16 @@ server.route({
         url: Joi.string().regex(/^[a-z\d-]+\.[a-z\.]{2,6}/)
       }
     }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/fetch',
+  handler: function(request, reply) {
+    counter.fetch()
+      .then(counter.fetch_facebook)
+      .then(reply);
   }
 });
 
