@@ -1,4 +1,5 @@
 var _       = require('lodash');
+var moment  = require('moment');
 var redis   = require('redis');
 var request = require('request');
 var Q       = require('q');
@@ -11,7 +12,7 @@ Counter.prototype.fetch = function() {
   var deferred = Q.defer();
   var client   = redis.createClient();
 
-  var now  = Math.floor(new Date() / 1000);
+  var now  = moment().unix();
   var from = now - this.time_range;
   console.log('fetch urls_log starting from', from, 'to', now);
 
@@ -50,7 +51,7 @@ Counter.prototype.fetch_facebook = function(urls) {
         } else {
           var objects   = JSON.parse(body);
           var client    = redis.createClient();
-          var timestamp = Math.floor(new Date() / 1000);
+          var timestamp = moment().unix();
 
           _.forEach(objects, function(obj) {
             var url = obj.og_object.url;
