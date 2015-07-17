@@ -31,35 +31,38 @@ Counter.prototype.fetch_facebook = function(urls) {
   var endpoint = 'https://graph.facebook.com/?access_token=' + process.env.FACEBOOK_TOKEN + '&ids=';
 
   _.forEach(_.chunk(urls, limit), function(list) {
-    var url = [
-      endpoint,
-      list.join()
-    ];
-    var options = {
-      url: url.join('')
+    var counting = function() {
+      var url = [
+        endpoint,
+        list.join()
+      ];
+      var options = {
+        url: url.join('')
+      };
+
+      request.get(options, function(err, res, body) {
+        console.log('fetched ' + url.join(''));
+
+        if (err) {
+          console.error(err);
+        } else if (res.statusCode !== 200) {
+          console.error(body);
+        } else {
+          var objects   = JSON.parse(body);
+          var client    = redis.createClient();
+          var timestamp = Math.floor(new Date() / 1000);
+
+          _.forEach(objects, function(obj) {
+            var url = obj.og_object.url;
+            var share_count = obj.share.share_count;
+            client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
+            // client.zadd('rank', share_count, url, redis.print);
+            client.set('counts:' + url, share_count, redis.print);
+          });
+        }
+      });
     };
-
-    request.get(options, function(err, res, body) {
-      console.log('fetched ' + url.join(''));
-
-      if (err) {
-        console.error(err);
-      } else if (res.statusCode !== 200) {
-        console.error(body);
-      } else {
-        var objects   = JSON.parse(body);
-        var client    = redis.createClient();
-        var timestamp = Math.floor(new Date() / 1000);
-
-        _.forEach(objects, function(obj) {
-          var url = obj.og_object.url;
-          var share_count = obj.share.share_count;
-          client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
-          // client.zadd('rank', share_count, url, redis.print);
-          client.set('counts:' + url, share_count, redis.print);
-        });
-      }
-    });
+    setTimeout(counting, 5000);
   });
 
   return true;
