@@ -15,7 +15,7 @@ server.connection({
 
 server.route({
   method: 'GET',
-  path: '/add/{url}',
+  path: '/sitemap/add/{url}',
   handler: function(request, reply) {
     sitemap.fetch(request.params.url)
       .then(sitemap.getUrls)
@@ -34,7 +34,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/fetch',
+  path: '/stat/count',
   handler: function(request, reply) {
     counter.fetch()
       .then(counter.fetch_facebook)
@@ -44,7 +44,7 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/rank',
+  path: '/',
   handler: function(request, reply) {
     counter.fetch()
       .then(counter.rank)
