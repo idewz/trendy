@@ -1,5 +1,6 @@
 var _ = require('lodash');
 var Q = require('q');
+var moment  = require('moment');
 var request = require('request');
 var URL     = require('url');
 var xml2js  = require('xml2js');
@@ -35,15 +36,35 @@ Sitemap.prototype.getUrls = function(xml_string) {
 
     xml2js.parseString(xml_string, function(err, xml) {
       _.forEach(xml.urlset.url, function(url) {
-        url = URL.parse(url.loc[0]);
+        location = URL.parse(url.loc[0]);
 
         // exclude sitemap and frontpage
-        if (/sitemap/.test(url.href) || _.isEmpty(url.path)) {
-          console.log('exclude', url.href);
+        if (/sitemap/.test(location.href) || _.isEmpty(location.path)) {
+          console.log('exclude', location.href);
           return;
         }
 
-        urls.push(url.href);
+        var field = '';
+        var title = '';
+        var timestamp = moment();
+
+        if (_.has(url, 'news:news')) {
+          field = 'news:news';
+          title = url[field][0]['news:title'][0];
+          timestamp = url[field][0]['news:publication_date'][0];
+        } else if (_.has(url, 'n:news')) {
+          field = 'n:news';
+          title = url[field][0]['n:title'][0];
+          timestamp = url[field][0]['n:publication_date'][0];
+        } else {
+          timestamp = url.lastmod[0];
+        }
+
+        urls.push({
+          location: location.href,
+          title: title,
+          datetime: moment(timestamp).unix()
+        });
       });
     });
 
