@@ -15,9 +15,9 @@ server.connection({
 
 server.route({
   method: 'GET',
-  path: '/sitemap/add/{url}',
+  path: '/sitemap/add',
   handler: function(request, reply) {
-    sitemap.fetch(request.params.url)
+    sitemap.fetch(request.query.url)
       .then(sitemap.getUrls)
       .then(indexer.add)
       .then(reply)
@@ -25,8 +25,8 @@ server.route({
   },
   config: {
     validate: {
-      params: {
-        url: Joi.string().regex(/^[a-z\d-]+\.[a-z\.]{2,6}/)
+      query: {
+        url: Joi.string().regex(/[-a-zA-Z0-9\:_\/\.]{8,256}/)
       }
     }
   }

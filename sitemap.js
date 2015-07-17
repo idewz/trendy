@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var Q = require('q');
 var request = require('request');
+var URL     = require('url');
 var xml2js  = require('xml2js');
 
 function Sitemap() {
@@ -8,7 +9,6 @@ function Sitemap() {
 
 Sitemap.prototype.fetch = function(url) {
   var deferred = Q.defer();
-  url = 'http://www.' + url + '/sitemap.xml';
 
   var options = {
     url: url
@@ -35,9 +35,15 @@ Sitemap.prototype.getUrls = function(xml_string) {
 
     xml2js.parseString(xml_string, function(err, xml) {
       _.forEach(xml.urlset.url, function(url) {
-        if (!/sitemap/.test(url.loc[0])) {
-          urls.push(url.loc[0]);
+        url = URL.parse(url.loc[0]);
+
+        // exclude sitemap and frontpage
+        if (/sitemap/.test(url.href) || _.isEmpty(url.path)) {
+          console.log('exclude', url.href);
+          return;
         }
+
+        urls.push(url.href);
       });
     });
 
