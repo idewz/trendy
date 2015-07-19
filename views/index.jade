@@ -1,0 +1,11 @@
+doctype html
+
+html
+  head
+    title Trendy
+  body
+    h1 Home
+    ul#container
+      each url in urls
+        li= url.url
+        li= url.share_count

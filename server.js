@@ -13,6 +13,17 @@ server.connection({
   port: 3000
 });
 
+server.views({
+  engines: {
+    jade: {
+      module: require('jade')
+    }
+  },
+  relativeTo: __dirname,
+  path: 'views',
+  helpersPath: 'views/helpers'
+});
+
 server.route({
   method: 'GET',
   path: '/sitemap/add',
@@ -48,7 +59,25 @@ server.route({
   handler: function(request, reply) {
     counter.fetch()
       .then(counter.rank)
-      .then(reply);
+      .then(function(urls) {
+        reply.view(
+          'index',
+          {
+            urls: urls
+          }
+        );
+      });
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/public/{path*}',
+  handler: {
+    directory: {
+      path: 'public',
+      listing: false
+    }
   }
 });
 
