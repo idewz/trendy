@@ -3,6 +3,7 @@ var moment  = require('moment');
 var redis   = require('redis');
 var request = require('request');
 var Q       = require('q');
+var utf8    = require('utf8');
 
 function Counter() {
   this.time_range = 86400;
@@ -56,9 +57,11 @@ Counter.prototype.fetch_facebook = function(urls) {
           _.forEach(objects, function(obj) {
             var url = obj.og_object.url;
             var share_count = obj.share.share_count;
+            var title = utf8.decode(obj.og_object.title);
+
             client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
             // client.zadd('rank', share_count, url, redis.print);
-            client.hset(url, 'title', obj.og_object.title, redis.print);
+            client.hset(url, 'title', title, redis.print);
             client.hset(url, 'counts', share_count, redis.print);
           });
         }
