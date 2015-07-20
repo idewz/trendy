@@ -58,7 +58,8 @@ Counter.prototype.fetch_facebook = function(urls) {
             var share_count = obj.share.share_count;
             client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
             // client.zadd('rank', share_count, url, redis.print);
-            client.set('counts:' + url, share_count, redis.print);
+            client.hset(url, 'title', obj.og_object.title, redis.print);
+            client.hset(url, 'counts', share_count, redis.print);
           });
         }
       });
@@ -72,22 +73,19 @@ Counter.prototype.fetch_facebook = function(urls) {
 Counter.prototype.rank = function(urls) {
   var deferred = Q.defer();
   var client   = redis.createClient();
-  var keys     = _.map(urls, function(x) { return 'counts:' + x; });
   var list     = [];
-  var index    = 0;
 
-  client.mget(keys, function(err, replies) {
-    _.forEach(urls, function(url) {
-      var share_count = parseInt(replies[index]);
+  _.forEach(urls, function(url) {
+    client.hmget(url, 'title', 'counts', function(err, replies) {
       list.push({
         url: url,
-        share_count: share_count ? share_count : 0
+        title: replies[0],
+        share_count: parseInt(replies[1]) ||  0
       });
-
-      index++;
+      if (list.length == urls.length) {
+        deferred.resolve(_.sortByOrder(list, 'share_count', 'desc'));
+      }
     });
-
-    deferred.resolve(_.sortByOrder(list, 'share_count', 'desc'));
   });
 
   return deferred.promise;

@@ -13,5 +13,6 @@ html
   body
     each url in urls
       my-card
-        .url #{url.url}
+        .url
+          a(href="#{url.url}") #{url.title}
         .shares #{url.share_count}
