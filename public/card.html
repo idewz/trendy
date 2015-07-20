@@ -17,8 +17,12 @@
       float: left;
       margin: 0.1em 0 0 0.5em;
     }
-    ::content .url a {
+    ::content .url a:link,
+    ::content .url a:visited,
+    ::content .url a:hover,
+    ::content .url a:active {
       text-decoration: none;
+      color: crimson;
     }
     ::content .shares {
       width: 6%;
