@@ -12,5 +12,5 @@ html
     each url in urls
       my-card
         .shares #{url.share_count}
-        .url
-          a(href="#{url.url}") #{url.title}
+        .url.truncate
+          a(href="#{url.url}") #{url.title || url.url}
