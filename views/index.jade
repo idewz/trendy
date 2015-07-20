@@ -3,9 +3,15 @@ doctype html
 html
   head
     title Trendy
+
+    script(src="/public/components/webcomponentsjs/webcomponents.min.js")
+
+    link(rel="import", href="/public/card.html")
+
+    link(rel="stylesheet", href="/public/trendy.css")
+
   body
-    h1 Home
-    ul#container
-      each url in urls
-        li= url.url
-        li= url.share_count
+    each url in urls
+      my-card
+        .url #{url.url}
+        .shares #{url.share_count}

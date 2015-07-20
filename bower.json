@@ -1,0 +1,23 @@
+{
+  "name": "trendy",
+  "version": "0.0.1",
+  "homepage": "https://github.com/idewz/trendy",
+  "authors": [
+    "Siwadon Saosoong <siwadon.s@gmail.com>"
+  ],
+  "moduleType": [
+    "node"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#^1.0.0",
+    "paper-material": "PolymerElements/paper-material#~1.0.1"
+  }
+}

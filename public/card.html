@@ -1,0 +1,26 @@
+<link rel="import" href="/public/components/polymer/polymer.html">
+<link rel="import" href="/public/components/paper-material/paper-material.html">
+
+<dom-module id="my-card">
+  <style>
+    :host {
+      font-family: 'Roboto', sans-serif;
+    }
+    .url-card {
+      width: 100%;
+      min-height: 24px;
+      margin-bottom: 12px;
+    }
+  </style>
+  <template>
+    <paper-material class="url-card">
+      <content></content>
+    </paper-material>  
+  </template>
+
+  <script>
+    Polymer({
+      is: 'my-card'
+    });
+  </script>
+</dom-module>
