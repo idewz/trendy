@@ -2,6 +2,7 @@ doctype html
 
 html
   head
+    meta(charset='utf-8')
     title Trendy
 
     script(src="/public/components/webcomponentsjs/webcomponents.min.js")
@@ -15,4 +16,5 @@ html
       my-card
         .shares #{url.share_count}
         .url.truncate
-          a(href="#{url.url}") #{url.title || url.url}
+          a(href="#{url.url}")
+           !{url.title || url.url}
