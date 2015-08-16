@@ -57,7 +57,7 @@ Counter.prototype.fetch_facebook = function(urls) {
           _.forEach(objects, function(obj) {
             var url = obj.og_object.url;
             var share_count = obj.share.share_count;
-            var title = utf8.decode(obj.og_object.title);
+            var title = utf8.decode(obj.og_object.title || url);
 
             client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
             // client.zadd('rank', share_count, url, redis.print);
