@@ -13,6 +13,8 @@ server.connection({
   port: 3000
 });
 
+var io = require('socket.io')(server.listener);
+
 server.views({
   engines: {
     jade: {
@@ -49,7 +51,13 @@ server.route({
   handler: function(request, reply) {
     counter.fetch()
       .then(counter.fetch_facebook)
-      .then(reply);
+      .then(function() {
+        counter.fetch()
+          .then(counter.rank)
+          .then(function(urls) {
+            io.emit('io:rank', urls);
+          });
+      });
   }
 });
 
