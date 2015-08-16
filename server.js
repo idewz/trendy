@@ -2,10 +2,12 @@ var Counter = require('./counter');
 var Hapi    = require('hapi');
 var Indexer = require('./indexer');
 var Joi     = require('joi');
+var RSS     = require('./RSS');
 var Sitemap = require('./sitemap');
 
 var counter = new Counter();
 var indexer = new Indexer();
+var rss     = new RSS();
 var sitemap = new Sitemap();
 var server  = new Hapi.Server();
 
@@ -32,6 +34,25 @@ server.route({
   handler: function(request, reply) {
     sitemap.fetch(request.query.url)
       .then(sitemap.getUrls)
+      .then(indexer.add)
+      .then(reply)
+      .catch(reply);
+  },
+  config: {
+    validate: {
+      query: {
+        url: Joi.string().regex(/[-a-zA-Z0-9\:_\/\.]{8,256}/)
+      }
+    }
+  }
+});
+
+server.route({
+  method: 'GET',
+  path: '/rss/add',
+  handler: function(request, reply) {
+    rss.fetch(request.query.url)
+      .then(rss.getUrls)
       .then(indexer.add)
       .then(reply)
       .catch(reply);
