@@ -9,7 +9,7 @@
     }
     .url-card {
       width: 100%;
-      min-height: 1.25em;
+      min-height: 1.75em;
       margin-bottom: 0.25em;
     }
     ::content .url {
@@ -27,7 +27,7 @@
     ::content .shares {
       width: 6%;
       float: left;
-      margin: 0.1em 0 0 0.5em;
+      margin: 0.3em 0 0 0.5em;
       font-weight: bold;
     }
     ::content .truncate {
@@ -37,6 +37,18 @@
       text-overflow: ellipsis;
       color: crimson;
     }
+
+    @media(max-width: 660px) {
+        :host {
+            font-size: 1em;
+        }
+    }
+    @media(max-width: 360px) {
+        :host {
+            font-size: 0.75em;
+        }
+    }
+
   </style>
   <template>
     <paper-material class="url-card">
