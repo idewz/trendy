@@ -18,6 +18,7 @@
   ],
   "dependencies": {
     "polymer": "Polymer/polymer#^1.0.0",
-    "paper-material": "PolymerElements/paper-material#~1.0.1"
+    "paper-material": "PolymerElements/paper-material#~1.0.1",
+    "paper-progress": "polymer/paper-progress#~0.5.6"
   }
 }
