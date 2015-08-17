@@ -43,7 +43,15 @@ th_rss_urls = [
   'http://droidsans.com/rss.xml',
   'http://www.macthai.com/feed/',
   'http://techsauce.co/feed/',
-  'http://feeds.feedburner.com/9tana'
+  'http://www.beartai.com/feed',
+  'http://www.it24hrs.com/feed/',
+  'http://thumbsup.in.th/feed/',
+  'http://www.baagames.com/feed/',
+  'http://mobiledista.com/feed',
+  'http://feeds.feedburner.com/mxphone',
+  'http://feeds.feedburner.com/MacStroke',
+  'http://www.freeware.in.th/feed',
+  'http://www.9tana.com/feed/'
   // 'http://www.khaosod.co.th/rss/urgent_news.xml',
   // 'http://www.khaosod.co.th/rss/wikipedia_news.xml',
   // 'http://www.khaosod.co.th/rss/entertainment_news.xml',
