@@ -11,11 +11,27 @@ html
     script(src="/public/client.js")
 
     link(rel="import", href="/public/card.html")
+    link(rel="import", href="/public/components/paper-styles/color.html")
+    link(rel="import", href="/public/components/paper-progress/paper-progress.html")
+
+    style(is="custom-style")
+      | paper-progress {
+      |  display: block;
+      |  width: 100%;
+      |  padding: 0;
+      |}
+      
+      |paper-progress.green {
+      |  --paper-progress-active-color: var(--paper-light-green-800);
+      |  --paper-progress-secondary-color: var(--paper-light-green-300);
+      |}
 
   body
-    each url in urls
-      my-card
-        .shares #{url.share_count}
-        .url.truncate
-          a(href="#{url.url}")
-            !{url.title || url.url}
+    paper-progress.green(value=50)
+    .list
+      each url in urls
+        my-card
+          .shares #{url.share_count}
+          .url.truncate
+            a(href="#{url.url}")
+              | !{url.title || url.url}

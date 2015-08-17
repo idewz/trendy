@@ -16,6 +16,6 @@ document.addEventListener("DOMContentLoaded", function(event) {
       list.push(template);
     });
 
-    document.body.innerHTML = list.join('');
+    document.querySelector('.list').innerHTML = list.join('');
   })
 });
