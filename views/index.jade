@@ -27,7 +27,7 @@ html
       |}
 
   body
-    paper-progress.green(value=50)
+    paper-progress.green(value=0,min=0,max=60000,step=1)
     .list
       each url in urls
         my-card
