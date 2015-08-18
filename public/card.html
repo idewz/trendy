@@ -13,7 +13,7 @@
       margin-bottom: 0.25em;
     }
     ::content .url {
-      width: 90%;
+      width: 85%;
       float: left;
       margin: 0.1em 0 0 0.5em;
     }
@@ -25,28 +25,45 @@
       color: crimson;
     }
     ::content .shares {
-      width: 6%;
+      width: 10%;
       float: left;
       margin: 0.3em 0 0 0.5em;
       font-weight: bold;
     }
     ::content .truncate {
-      width: 89%;
+      width: 84%;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       color: crimson;
     }
 
+    @media(min-width: 1024px) {
+      ::content .shares {
+        width: 6%;
+      }
+      ::content .url {
+        width: 90%;
+      }
+      ::content .truncate {
+        width: 89%;
+      }
+    }
     @media(max-width: 660px) {
-        :host {
-            font-size: 1em;
-        }
+      :host {
+        font-size: 1em;
+      }
+      ::content .url {
+        margin: 0.25em 0 0 0.5em;
+      }
     }
     @media(max-width: 360px) {
-        :host {
-            font-size: 0.75em;
-        }
+      :host {
+        font-size: 0.75em;
+      }
+      ::content .url {
+        margin: 0.25em 0 0 0.5em;
+      }
     }
 
   </style>
