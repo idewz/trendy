@@ -25,9 +25,13 @@ html
       |  --paper-progress-active-color: var(--paper-light-green-800);
       |  --paper-progress-secondary-color: var(--paper-light-green-300);
       |}
+      |paper-progress.red {
+      |  --paper-progress-active-color: var(--paper-red-700);
+      |  --paper-progress-secondary-color: var(--paper-red-300);
+      |}
 
   body
-    paper-progress.green(value=0,min=0,max=60000,step=1)
+    paper-progress.red(value=0,min=0,max=60000,step=1)
     .list
       each url in urls
         my-card
