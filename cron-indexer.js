@@ -51,7 +51,8 @@ th_rss_urls = [
   'http://feeds.feedburner.com/mxphone',
   'http://feeds.feedburner.com/MacStroke',
   'http://www.freeware.in.th/feed',
-  'http://www.9tana.com/feed/'
+  'http://www.9tana.com/feed/',
+  'http://www.techmoblog.com/feed/rss/'
   // 'http://www.khaosod.co.th/rss/urgent_news.xml',
   // 'http://www.khaosod.co.th/rss/wikipedia_news.xml',
   // 'http://www.khaosod.co.th/rss/entertainment_news.xml',
