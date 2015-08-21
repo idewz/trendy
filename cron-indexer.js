@@ -52,7 +52,17 @@ th_rss_urls = [
   'http://feeds.feedburner.com/MacStroke',
   'http://www.freeware.in.th/feed',
   'http://www.9tana.com/feed/',
-  'http://www.techmoblog.com/feed/rss/'
+  'http://www.techmoblog.com/feed/rss/',
+  'http://www.techxcite.com/rss',
+  'http://www.manager.co.th/RSS/Cyberbiz/Cyberbiz.xml',
+  'http://www.manager.co.th/RSS/Telecom/Telecom.xml',
+  'http://www.manager.co.th/RSS/Game/Game.xml',
+  'http://www.appdisqus.com/feed',
+  'http://www.overclockzone.com/rss/review.php',
+  'http://www.overclockzone.com/rss/notebook.php',
+  'http://www.thaiware.com/rss/rss_latestPost_tips.php',
+  'http://www.thaiware.com/rss/rss_latestPost_review.php',
+  'http://www.thaiware.com/rss/rss_latestPost_news.php'
   // 'http://www.khaosod.co.th/rss/urgent_news.xml',
   // 'http://www.khaosod.co.th/rss/wikipedia_news.xml',
   // 'http://www.khaosod.co.th/rss/entertainment_news.xml',
@@ -65,9 +75,9 @@ th_rss_urls = [
   // 'http://rssfeeds.sanook.com/rss/feeds/sanook/news.index.xml',
 ];
 
-_.forEach(th_sitemap_urls, function(url) {
-  sitemap_fetch(url);
-});
+//_.forEach(th_sitemap_urls, function(url) {
+//  sitemap_fetch(url);
+//});
 
 _.forEach(th_rss_urls, function(url) {
   rss_fetch(url);
