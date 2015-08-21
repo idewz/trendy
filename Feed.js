@@ -5,10 +5,10 @@ var request = require('request');
 var URL     = require('url');
 var xml2js  = require('xml2js');
 
-function RSS() {
+function Feed() {
 }
 
-RSS.prototype.fetch = function(url) {
+Feed.prototype.fetch = function(url) {
   var deferred = Q.defer();
 
   var options = {
@@ -34,7 +34,7 @@ RSS.prototype.fetch = function(url) {
   return deferred.promise;
 };
 
-RSS.prototype.getUrls = function(xml_string) {
+Feed.prototype.get_rss = function(xml_string) {
   try {
     var urls = [];
 
@@ -42,8 +42,8 @@ RSS.prototype.getUrls = function(xml_string) {
       _.forEach(xml.rss.channel[0].item, function(url) {
         location = URL.parse(url.link[0]);
 
-        // exclude RSS and frontpage
-        if (/RSS/.test(location.href) || _.isEmpty(location.path)) {
+        // exclude Feed and frontpage
+        if (/rss|feed/.test(location.href) || _.isEmpty(location.path)) {
           console.log('exclude', location.href);
           return;
         }
@@ -65,4 +65,49 @@ RSS.prototype.getUrls = function(xml_string) {
   }
 };
 
-module.exports = RSS;
+Feed.prototype.get_sitemap = function(xml_string) {
+  try {
+    var urls = [];
+
+    xml2js.parseString(xml_string, function(err, xml) {
+      _.forEach(xml.urlset.url, function(url) {
+        location = URL.parse(url.loc[0]);
+
+        // exclude sitemap and frontpage
+        if (/sitemap/.test(location.href) || _.isEmpty(location.path)) {
+          console.log('exclude', location.href);
+          return;
+        }
+
+        var field = '';
+        var title = '';
+        var timestamp = moment();
+
+        if (_.has(url, 'news:news')) {
+          field = 'news:news';
+          title = url[field][0]['news:title'][0];
+          timestamp = url[field][0]['news:publication_date'][0];
+        } else if (_.has(url, 'n:news')) {
+          field = 'n:news';
+          title = url[field][0]['n:title'][0];
+          timestamp = url[field][0]['n:publication_date'][0];
+        } else {
+          timestamp = url.lastmod[0];
+        }
+
+        urls.push({
+          location: location.href,
+          title: title,
+          datetime: moment(timestamp).unix()
+        });
+      });
+    });
+
+    return urls;
+  }
+  catch (ex) {
+    console.error('problem parsing sitemap: ' + ex);
+  }
+};
+
+module.exports = Feed;
