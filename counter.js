@@ -53,21 +53,25 @@ Counter.prototype.fetch_facebook = function(urls) {
           var objects   = JSON.parse(body);
           var client    = db.redis;
           var timestamp = moment().unix();
+          var og_url;
+          var share_count;
+          var title;
 
           _.forEach(objects, function(obj) {
             if (_.has(obj.og_object, 'url')) {
-              var url = obj.og_object.url;
-              var share_count = obj.share.share_count;
-              var title = obj.og_object.title || url;
-
-              client.zadd('fetch_log', 'NX', timestamp, url, db.print);
-              // client.zadd('rank', share_count, url, db.print);
-              client.hset(url, 'title', title, db.print);
-              client.hset(url, 'counts', share_count, db.print);
-            } else {
-              console.error('OG Object Error: ');
-              console.error(obj);
+              og_url = obj.og_object.url || obj.id;
+              share_count = obj.share.share_count;
+              title = obj.og_object.title || og_url;
+            } else if (_.has(obj, 'id')) {
+              og_url = obj.id;
+              share_count = obj.share.share_count;
+              title = obj.id;
             }
+
+            client.zadd('fetch_log', 'NX', timestamp, og_url, db.print);
+            // client.zadd('rank', share_count, url, db.print);
+            client.hset(og_url, 'title', title, db.print);
+            client.hset(og_url, 'counts', share_count, db.print);
           });
         }
       });
