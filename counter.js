@@ -1,6 +1,6 @@
 var _       = require('lodash');
+var db      = require('./db');
 var moment  = require('moment');
-var redis   = require('redis');
 var request = require('request');
 var Q       = require('q');
 var utf8    = require('utf8');
@@ -11,7 +11,7 @@ function Counter() {
 
 Counter.prototype.fetch = function() {
   var deferred = Q.defer();
-  var client   = redis.createClient();
+  var client   = db.redis;
 
   var now  = moment().unix();
   var from = now - this.time_range;
@@ -51,7 +51,7 @@ Counter.prototype.fetch_facebook = function(urls) {
           console.error(body);
         } else {
           var objects   = JSON.parse(body);
-          var client    = redis.createClient();
+          var client    = db.redis;
           var timestamp = moment().unix();
 
           _.forEach(objects, function(obj) {
@@ -59,10 +59,10 @@ Counter.prototype.fetch_facebook = function(urls) {
             var share_count = obj.share.share_count;
             var title = obj.og_object.title || url;
 
-            client.zadd('fetch_log', 'NX', timestamp, url, redis.print);
-            // client.zadd('rank', share_count, url, redis.print);
-            client.hset(url, 'title', title, redis.print);
-            client.hset(url, 'counts', share_count, redis.print);
+            client.zadd('fetch_log', 'NX', timestamp, url, client.print);
+            // client.zadd('rank', share_count, url, client.print);
+            client.hset(url, 'title', title, client.print);
+            client.hset(url, 'counts', share_count, client.print);
           });
         }
       });
@@ -75,7 +75,7 @@ Counter.prototype.fetch_facebook = function(urls) {
 
 Counter.prototype.rank = function(urls) {
   var deferred = Q.defer();
-  var client   = redis.createClient();
+  var client   = db.redis;
   var list     = [];
 
   _.forEach(urls, function(url) {
