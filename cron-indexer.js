@@ -75,6 +75,10 @@ th_rss_urls = [
   // 'http://rssfeeds.sanook.com/rss/feeds/sanook/news.index.xml',
 ];
 
+//atom
+//http://www.siamphone.com/rss/rss.xml
+//http://specphone.com/feed
+
 //_.forEach(th_sitemap_urls, function(url) {
 //  sitemap_fetch(url);
 //});
