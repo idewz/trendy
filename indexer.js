@@ -13,7 +13,7 @@ Indexer.prototype.add = function(urls) {
     client.sadd('urls', url.location, function(err, reply) {
       // if it is new add to urls_log
       if (reply) {
-        client.zadd('urls_log', 'NX', url.datetime, url.location, client.print);
+        client.zadd('urls_log', 'NX', url.datetime, url.location, db.print);
         // wanna set expire time?
       }
     });

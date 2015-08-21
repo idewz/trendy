@@ -60,10 +60,10 @@ Counter.prototype.fetch_facebook = function(urls) {
               var share_count = obj.share.share_count;
               var title = obj.og_object.title || url;
 
-              client.zadd('fetch_log', 'NX', timestamp, url, client.print);
-              // client.zadd('rank', share_count, url, client.print);
-              client.hset(url, 'title', title, client.print);
-              client.hset(url, 'counts', share_count, client.print);
+              client.zadd('fetch_log', 'NX', timestamp, url, db.print);
+              // client.zadd('rank', share_count, url, db.print);
+              client.hset(url, 'title', title, db.print);
+              client.hset(url, 'counts', share_count, db.print);
             }
           });
         }
