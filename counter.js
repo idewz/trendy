@@ -64,6 +64,9 @@ Counter.prototype.fetch_facebook = function(urls) {
               // client.zadd('rank', share_count, url, db.print);
               client.hset(url, 'title', title, db.print);
               client.hset(url, 'counts', share_count, db.print);
+            } else {
+              console.error('OG Object Error: ');
+              console.error(obj);
             }
           });
         }
