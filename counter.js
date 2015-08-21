@@ -55,14 +55,16 @@ Counter.prototype.fetch_facebook = function(urls) {
           var timestamp = moment().unix();
 
           _.forEach(objects, function(obj) {
-            var url = obj.og_object.url;
-            var share_count = obj.share.share_count;
-            var title = obj.og_object.title || url;
+            if (_.has(obj.og_object, 'url')) {
+              var url = obj.og_object.url;
+              var share_count = obj.share.share_count;
+              var title = obj.og_object.title || url;
 
-            client.zadd('fetch_log', 'NX', timestamp, url, client.print);
-            // client.zadd('rank', share_count, url, client.print);
-            client.hset(url, 'title', title, client.print);
-            client.hset(url, 'counts', share_count, client.print);
+              client.zadd('fetch_log', 'NX', timestamp, url, client.print);
+              // client.zadd('rank', share_count, url, client.print);
+              client.hset(url, 'title', title, client.print);
+              client.hset(url, 'counts', share_count, client.print);
+            }
           });
         }
       });
