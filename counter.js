@@ -9,18 +9,6 @@ function Counter() {
   this.time_range = 86400;
 }
 
-set_shares_history = function(url, hours_diff, share_count) {
-  db.redis.hget(url, 'counts', function(err, reply) {
-    var shares_diff;
-    if (err) {
-      shares_diff = 0;
-    } else if (reply) {
-      shares_diff = share_count - reply;
-    }
-    db.redis.hset('history:' + url, hours_diff, shares_diff, db.redis.print);
-  });
-};
-
 Counter.prototype.fetch = function() {
   var deferred = Q.defer();
 
@@ -97,7 +85,7 @@ Counter.prototype.fetch_facebook = function(urls_and_times) {
             var logged_time = moment(urls_with_time[og_url] * 1000);
             var time_diff   = timestamp.diff(logged_time, 'hours');
 
-            set_shares_history(og_url, time_diff, share_count);
+            db.redis.hset('history:' + og_url, time_diff, share_count, db.redis.print);
           });
         }
       });
