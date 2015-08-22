@@ -23,13 +23,12 @@ set_shares_history = function(url, hours_diff, share_count) {
 
 Counter.prototype.fetch = function() {
   var deferred = Q.defer();
-  var client   = db.redis;
 
   var now  = moment().unix();
   var from = now - this.time_range;
   console.log('fetch urls_log starting from', from, 'to', now);
 
-  client.zrangebyscore('urls_log', from, now, 'WITHSCORES', function(err, urls) {
+  db.redis.zrangebyscore('urls_log', from, now, 'WITHSCORES', function(err, urls) {
     if (err) {
       deferred.reject(err);
     } else {
@@ -66,7 +65,6 @@ Counter.prototype.fetch_facebook = function(urls_and_times) {
           console.error(body);
         } else {
           var objects   = JSON.parse(body);
-          var client    = db.redis;
           var timestamp = moment();
           var og_url;
           var share_count;
@@ -85,10 +83,10 @@ Counter.prototype.fetch_facebook = function(urls_and_times) {
               return;
             }
 
-            client.zadd('fetch_log', 'NX', timestamp.unix(), og_url, db.print);
-            // client.zadd('rank', share_count, url, db.print);
-            client.hset(og_url, 'title', title, db.print);
-            client.hset(og_url, 'counts', share_count, db.print);
+            db.redis.zadd('fetch_log', 'NX', timestamp.unix(), og_url, db.print);
+            // db.redis.zadd('rank', share_count, url, db.print);
+            db.redis.hset(og_url, 'title', title, db.print);
+            db.redis.hset(og_url, 'counts', share_count, db.print);
 
             // set url share_count history by hours diff
             var urls_with_time = _.object(urls, times);
@@ -112,11 +110,10 @@ Counter.prototype.fetch_facebook = function(urls_and_times) {
 
 Counter.prototype.rank = function(urls_and_times) {
   var deferred = Q.defer();
-  var client   = db.redis;
   var list     = [];
 
   _.forEach(urls_and_times[0], function(url) {
-    client.hmget(url, 'title', 'counts', function(err, replies) {
+    db.redis.hmget(url, 'title', 'counts', function(err, replies) {
       list.push({
         url: url,
         title: replies[0],
