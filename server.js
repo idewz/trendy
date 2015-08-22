@@ -88,6 +88,17 @@ server.route({
 
 server.route({
   method: 'GET',
+  path: '/history',
+  handler: function(request, reply) {
+    indexer.get_history()
+      .then(indexer.group_history)
+      .then(reply)
+      .catch(reply);
+  }
+});
+
+server.route({
+  method: 'GET',
   path: '/public/{path*}',
   handler: {
     directory: {

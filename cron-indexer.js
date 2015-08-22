@@ -22,6 +22,16 @@ rss_fetch = function(url) {
   });
 };
 
+history_index = function() {
+  request('http://localhost:3000/history', function(err, res, body) {
+    if (err) {
+      console.error(moment().toISOString(), err);
+    } else {
+      console.log(moment().toISOString(), body);
+    }
+  });
+};
+
 en_sitemap_urls = [
   'http://www.cnet.com/sitemaps/news.xml',
   'http://gizmodo.com/sitemap_news.xml',
@@ -83,3 +93,5 @@ th_rss_urls = [
 _.forEach(th_rss_urls, function(url) {
   rss_fetch(url);
 });
+
+history_index();

@@ -85,7 +85,7 @@ Counter.prototype.fetch_facebook = function(urls_and_times) {
             var logged_time = moment(urls_with_time[og_url] * 1000);
             var time_diff   = timestamp.diff(logged_time, 'hours');
 
-            db.redis.hset('history:' + og_url, time_diff, share_count, db.redis.print);
+            db.redis.hset('history:' + og_url, time_diff, parseInt(share_count), db.redis.print);
           });
         }
       });
